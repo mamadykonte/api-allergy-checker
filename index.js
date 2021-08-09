@@ -11,10 +11,10 @@ const userRoutes = require("./routes/users");
 
 app.use(express.json());
 
-// app.get("/", (req, res) => {
-//   res.set("Content-Type", "text/html");
-//   res.send("Hello world !!");
-// });
+app.get("/", (req, res) => {
+  res.set("Content-Type", "text/html");
+  res.send("Hello world !!");
+});
 app.use("/user", userRoutes);
 
 app.listen(process.env.PORT, () =>
