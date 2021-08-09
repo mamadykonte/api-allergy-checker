@@ -11,14 +11,14 @@ const userRoutes = require("./routes/users");
 
 app.use(express.json());
 
-// app.get("/", (req, res) => {
-//   res.set("Content-Type", "text/html");
-//   res.send("Hello world !!");
-// });
+app.get("/", (req, res) => {
+  res.set("Content-Type", "text/html");
+  res.send("Hello world !!");
+});
 app.use("/user", userRoutes);
 
-app.listen(4000, () =>
+app.listen(process.env.PORT, () =>
   connectDB()
-    .then((data) => console.log("Server is running 🚀 http://localhost:4000"))
+    .then((data) => console.log("Server is running 🚀"))
     .catch((error) => console.log(error))
 );
