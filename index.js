@@ -10,6 +10,7 @@ const connectDB = require("./models/connection");
 const userRoutes = require("./routes/users");
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.set("Content-Type", "text/html");
