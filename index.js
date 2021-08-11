@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 // mongoose connnection
 const connectDB = require("./models/connection");
@@ -9,8 +10,8 @@ const connectDB = require("./models/connection");
 // routes
 const userRoutes = require("./routes/users");
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.set("Content-Type", "text/html");
