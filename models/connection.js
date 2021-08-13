@@ -5,8 +5,6 @@ const connectTODB = async () =>
     useNewUrlParser: true,
     useFindAndModify: false,
     useUnifiedTopology: true,
-    useCreateIndex: true,
   });
-
 
 module.exports = connectTODB;
