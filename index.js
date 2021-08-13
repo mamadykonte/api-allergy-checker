@@ -9,6 +9,7 @@ const connectDB = require("./models/connection");
 
 // routes
 const userRoutes = require("./routes/users");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 app.use(cors());
 app.use(express.json());
@@ -19,7 +20,10 @@ app.get("/", (req, res) => {
 });
 app.use("/user", userRoutes);
 
-app.listen(process.env.PORT, () =>
+app.use(notFound);
+app.use(errorHandler);
+
+app.listen(process.env.PORT || 3000, () =>
   connectDB()
     .then((data) => console.log("Server is running 🚀"))
     .catch((error) => console.log(error))
