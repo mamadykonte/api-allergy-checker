@@ -16,10 +16,11 @@ exports.userAll = async (req, res) => {
 };
 
 exports.registerUser = asyncHandler(async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstName, lastName, pic } = req.body;
   const userExists = await userModel.findOne({ email });
 
   if (userExists) {
+    res.status(400)
     throw new Error("User already exists");
   }
 
@@ -27,28 +28,30 @@ exports.registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     name: `${firstName} ${lastName}`,
+    pic
   });
 
   if (user) {
     return res
       .status(201)
-      .json({ _id: user._id, name: user.name, token: generateToken(user._id) });
+      .json({ _id: user._id, name: user.name, token: generateToken(user._id), pic: user.pic });
   } else {
-    throw new Error("Error OIccured");
+    res.status(400)
+    throw new Error("Error Occured");
   }
 });
 
 exports.login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
-  const isPasswordCorrect = await user.matchPassword(password);
 
-  if (user && isPasswordCorrect) {
+  if (user && ( await user.matchPassword(password))) {
     res.json({
       _id: user._id,
       email: user.email,
       name: user.name,
       token: generateToken(user._id),
+      pic: user.pic,
     });
   } else {
     res.status(400);
