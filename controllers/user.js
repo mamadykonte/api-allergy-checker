@@ -5,10 +5,15 @@ const jwt = require("jsonwebtoken");
 // mongoose model
 const userModel = require("../models/user");
 const generateToken = require("../Utils/generateToken");
+const UserModel = require("../models/user");
+
+
 
 exports.userAll = async (req, res) => {
   try {
-    const user = await userModel.find();
+    const user = await userModel.find({}).populate("allergens");
+
+    
     return res.json({ user });
   } catch (error) {
     return res.status(500).json({ error: error.message });
