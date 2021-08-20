@@ -79,11 +79,11 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   GET /user/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const { firstName, lastName, email, password, pic } = req.body;
   const user = await User.findById(req.user._id);
 
   if (user) {
-    user.name = name || user.name;
+    user.name = `${firstName} ${lastName}` || user.name;
     user.email = email || user.email;
     user.pic = pic || user.pic;
     if (password) {
