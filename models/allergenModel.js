@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const allergensSchema = mongoose.Schema(
   {
-   
     allergy: [
       {
         api_id: {
@@ -10,10 +9,15 @@ const allergensSchema = mongoose.Schema(
           required: true,
         },
         name: { type: String, required: true, unique: true },
+        value: { type: String, required: true, unique: true },
         selected: { type: Boolean, required: true, default: false },
       },
     ],
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
   },
   {
     timestamps: true,

@@ -1,14 +1,18 @@
 require("dotenv").config();
-
+require("colors");
 const express = require("express");
-const app = express();
 const cors = require("cors");
 
-// mongoose connnection
-const connectDB = require("./models/connection");
+const connectDB = require("./config/db");
 
+// mongoose connnection
+connectDB();
+
+const app = express();
 // routes
-const userRoutes = require("./routes/users");
+const userRoutes = require("./routes/userRoutes");
+const allergenRoutes = require("./routes/allergenRoutes");
+
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 app.use(cors());
@@ -19,12 +23,17 @@ app.get("/", (req, res) => {
   res.send("Hello world !!");
 });
 app.use("/user", userRoutes);
+app.use("/allergen", allergenRoutes);
 
+// Error Handling middlewares
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(process.env.PORT || 3000, () =>
-  connectDB()
-    .then((data) => console.log("Server is running 🚀"))
-    .catch((error) => console.log(error))
+const PORT = process.env.PORT || 5000;
+app.listen(
+  PORT,
+  console.log(
+    `Server running 🚀 in ${process.env.MODE_ENV} mode on http://localhost:${PORT}..`
+      .yellow.bold
+  )
 );
