@@ -44,7 +44,7 @@ const login = asyncHandler(async (req, res) => {
 //@route           POST /user/register
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const { firstName, lastName, email, password, pic } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -54,7 +54,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    name,
+    name:`${firstName} ${lastName}`,
     email,
     password,
     pic,
