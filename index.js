@@ -12,6 +12,7 @@ const app = express();
 // routes
 const userRoutes = require("./routes/userRoutes");
 const allergenRoutes = require("./routes/allergenRoutes");
+const historieRoutes = require("./routes/historieRoutes");
 
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 app.use("/user", userRoutes);
 app.use("/allergen", allergenRoutes);
+app.use("/historie",historieRoutes)
 
 // Error Handling middlewares
 app.use(notFound);
