@@ -11,47 +11,58 @@ const historieAll = asyncHandler(async (req, res) => {
   res.status(500).json({ error: error.message });
 });
 
-const postHistorieId = asyncHandler(async (req, res) => {
-  const historie = await Historie.find({ "Idapi": req.body.Idapi })
-    .exec((err, subscribe) => {
-      if (err) return res.status(400).send(err)
-      res.status(200).json({ success: true, subscribeNumber: subscribe.length })
-    })
+// const createHistorie = asyncHandler(async (req, res) => {
+//   const {Idapi, generic_name, image_front_url, isFavorite } = req.body;
+
+//   const userExists = await User.findOne({ email });
+
+//   if (userExists) {
+//     res.status(404);
+//     throw new Error("User already exists");
+//   }
+
+//   const historie = await Historie.create({
+//     Idapi,
+//     generic_name,
+//     image_front_url,
+//     isFavorite
+//   });
+
+//   if (user) {
+//     res.status(201).json({
+//       _id: historie._id,
+//       isFavorite: historie.isFavorite,
+//       generic_name: historie.generic_name,
+//       Idapi: historie.Idapi,
+//       image_front_url: historie.image_front_url,
+//       token: generateToken(historie._id),
+//     });
+//   } else {
+//     res.status(400);
+//     throw new Error("User not found");
+//   }
+// });
+
+const createHistorie = asyncHandler(async (req, res) => {
+  const {api_id, generic_name, image_front_url, isFavorite } = req.body;
+
+
+  if (!api_id) {
+    console.log("test historie:")
+    res.status(400);
+    throw new Error("Please Fill all the feilds");
+    return;
+  } else {
+    const historie = new Historie({ user_id: req.user._id, api_id, generic_name, image_front_url, isFavorite });
+
+    const createHistorie = await historie.save();
+
+    res.status(201).json(createHistorie);
+  }
 });
 
-const Favorited = asyncHandler(async (req, res) => {
-  const favorite = await Favorite.find({ "Idapi": req.body.Idapi })
-    .exec((err, subscribe) => {
-      if (err) return res.status(400).send(err)
-      
-      let result = false;
-      if (subscribe.length !== 0) {
-        result = true
-      }
-
-      res.status(200).json({success: true, subscribed: result})
-    })
-})
-
-
-// const postHistorieId = asyncHandler(async (req, res) => {
-//   const historie = await Historie.findById({ "Idapi": req.body.Idapi })
-//     .exec((err, historie) => {
-//       if (historie) {
-//         res.json(historie);
-//       } else {
-//         res.status(400).json({ message: "Note not found" });
-//       }
-//       res.status(200).json(historie)
-//     })
-// })
-// const getHistories = asyncHandler(async (req, res) => {
-//     const histories = await Historie.find({ user: req.user.id });
-//     res.json(histories);
-// })
 
 module.exports = {
   historieAll,
-  postHistorieId,
-  Favorited
+  createHistorie
 };

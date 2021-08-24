@@ -10,7 +10,8 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    allergens: {type: mongoose.Schema.Types.ObjectId, ref: "Allergen"}
+    allergens: { type: mongoose.Schema.Types.ObjectId, ref: "Allergen" },
+    historie: {type: mongoose.Schema.Types.ObjectId, ref: "Historie"}
   },
   {
     timestamps: true,

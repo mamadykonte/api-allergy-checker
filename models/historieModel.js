@@ -1,31 +1,43 @@
 const mongoose = require("mongoose");
 
 const historieSchema = mongoose.Schema({
-    Allergen: {
+    // Allergen: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Allergen",
+    // },
+    user_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "Allergen",
+      ref: "User",
     },
-
-    Idapi: {
-        type:Number
+    api_id: {
+        type: Number,
+        required:true
     },
-    GenericName: {
-        type:String
+    generic_name: {
+        type: String,
+        required:true
     },
-    ImageFrontUrl: {
-        type:String
+    image_front_url: {
+        type: String,
+        required:true
     },
-    Allergen: {
-        type:Boolean
-    },
+    // Allergen: {
+    //     type:Boolean
+    // },
     isFavorite: {
-        type:Boolean
+        type: Boolean,
+        // default:false
     },
+    
 
 
 
+},
+{
+    timestamps: true
 });
+
 
 const historieModel = mongoose.model("Historie", historieSchema);
 
