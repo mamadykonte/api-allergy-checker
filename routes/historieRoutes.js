@@ -1,7 +1,8 @@
 const express = require("express");
 const {
     historieAll,
-    deleteFavorites
+    postHistorieId,
+    Favorited
   
 } = require("../controllers/historieController");
 
@@ -9,6 +10,8 @@ const {
 
 const router = express.Router();
 router.get("/", historieAll);
+router.post("/create", postHistorieId);
+router.post("/favorited", Favorited)
 // router.delete("/delete/:id", deleteFavorites)
 
 // router.get("/profile", );
