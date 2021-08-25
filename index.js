@@ -17,6 +17,7 @@ const historieRoutes = require("./routes/historieRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 app.use(cors());
+  
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -25,7 +26,7 @@ app.get("/", (req, res) => {
 });
 app.use("/user", userRoutes);
 app.use("/allergen", allergenRoutes);
-app.use("/historie",historieRoutes)
+app.use("/histories",historieRoutes)
 
 // Error Handling middlewares
 app.use(notFound);

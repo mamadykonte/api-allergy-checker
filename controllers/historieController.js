@@ -44,16 +44,16 @@ const historieAll = asyncHandler(async (req, res) => {
 // });
 
 const createHistorie = asyncHandler(async (req, res) => {
-  const {api_id, generic_name, image_front_url, isFavorite } = req.body;
+  const {api_id, generic_name, image_front_small_url, isFavorite, allergen } = req.body;
 
-
+  console.log("requête:", api_id, generic_name, image_front_small_url, isFavorite, allergen);
   if (!api_id) {
-    console.log("test historie:")
+    console.log("test historie:") 
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const historie = new Historie({ user_id: req.user._id, api_id, generic_name, image_front_url, isFavorite });
+    const historie = new Historie({ user_id: req.user._id, api_id, generic_name, image_front_small_url, isFavorite, allergen });
 
     const createHistorie = await historie.save();
 

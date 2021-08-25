@@ -12,22 +12,23 @@ const historieSchema = mongoose.Schema({
     },
     api_id: {
         type: Number,
+        unique:true,
         required:true
     },
     generic_name: {
         type: String,
         required:true
     },
-    image_front_url: {
+    image_front_small_url: {
         type: String,
         required:true
     },
-    // Allergen: {
-    //     type:Boolean
-    // },
+    allergen: {
+        type:Boolean
+    },
     isFavorite: {
         type: Boolean,
-        // default:false
+        default:false
     },
     
 
