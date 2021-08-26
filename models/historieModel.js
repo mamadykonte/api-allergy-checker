@@ -5,7 +5,7 @@ const historieSchema = mongoose.Schema({
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: "Allergen",
     // },
-    user_id: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",

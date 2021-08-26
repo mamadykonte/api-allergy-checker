@@ -44,25 +44,72 @@ const historieAll = asyncHandler(async (req, res) => {
 // });
 
 const createHistorie = asyncHandler(async (req, res) => {
-  const {api_id, generic_name, image_front_small_url, isFavorite, allergen } = req.body;
+  const { api_id, generic_name, image_front_small_url, isFavorite, allergen } = req.body;
 
   console.log("requête:", api_id, generic_name, image_front_small_url, isFavorite, allergen);
   if (!api_id) {
-    console.log("test historie:") 
+    console.log("test historie:")
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const historie = new Historie({ user_id: req.user._id, api_id, generic_name, image_front_small_url, isFavorite, allergen });
+    const historie = new Historie({ user: req.user._id, api_id, generic_name, image_front_small_url, isFavorite, allergen });
 
     const createHistorie = await historie.save();
 
     res.status(201).json(createHistorie);
   }
-});
+})
 
+
+const updateUserHistory = asyncHandler(async (req, res) => {
+  const { api_id, generic_name, image_front_small_url, isFavorite, allergen } = req.body;
+ 
+  const history = await Historie.findById(req.params.id);
+  console.log(history);
+  console.log('req body', req.body);
+  
+ 
+  if (history.user.toString() !== req.user._id.toString()) {
+    
+    res.status(401)
+    throw new Error("You can't perform this action")
+  }
+
+  if (history) { 
+  history.api_id = api_id || history.api_id;
+  history.generic_name = generic_name || history.generic_name;
+  history.image_front_small_url = image_front_small_url || history.image_front_small_url;
+  history.isFavorite = isFavorite || history.isFavorite;
+    history.allergen = allergen || history.allergen;
+    // token: generateToken(user._id)
+    
+    const updatedHistory = await history.save();
+    res.json(updatedHistory)
+}
+
+    
+
+    // res.json({
+    //   _id: updatedHistory._id,
+    //   api_id: updatedHistory.api_id,
+    //   generic_name: updatedHistory.name,
+    //   image_front_small_url: updatedHistory.image_front_small_url,
+    //   isFavorite: updatedHistory.isFavorite,
+    //   allergen: updatedHistory.allergen,
+    //   token: generateToken(updatedHistory._id),
+    // });
+  else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+  
+  
 
 module.exports = {
   historieAll,
-  createHistorie
+  createHistorie,
+  updateUserHistory
+  
 };
